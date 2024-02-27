@@ -17,7 +17,7 @@ There are several ways to provide Flow. You can use our cloud services and run F
 - install [Node.js platform](https://nodejs.org/en/)
 - download Flow source code
 - open terminal/command-line:
-	- `cd flow`
+	- `cd flow_ee`
 	- `npm install`
 
 __Run__:
@@ -32,9 +32,9 @@ or directly using node executable (port is optional, default 8000)
 node index.js <port>
 ```
 
-### Flow in Docker
+### Flow in Docker (ToDo)
 
 ```bash
-docker pull totalplatform/flow
-docker run -p 8000:8000 totalplatform/flow
+docker pull totalplatform/flow_ee 
+docker run -p 8000:8000 totalplatform/flow_ee
 ````
