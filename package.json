@@ -13,7 +13,7 @@
     "start": "node index.js 8000"
   },
   "keywords": [
-    "flow",
+    "flow_ee",
     "flowstream",
     "iot"
   ],
