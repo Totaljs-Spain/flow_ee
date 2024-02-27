@@ -1,0 +1,24 @@
+name                        : Total.js Flow v10
+flowstream_worker           : fork
+
+cookie          (generate)  : 6
+cookie_secret   (generate)  : 10
+
+$api                        : /fapi/
+$customtitles               : true
+
+// directory                   : /absolute/path/to/flow/database/
+
+// Disables: Worker/Fork
+// flowstream_worker           : false
+
+// Replaces WorkerThread for the ChildProcess/Fork
+// flowstream_worker           : fork
+
+// Memory size for forked processes (in MB)
+// flowstream_memory           : 4069
+
+// $root                       : subdomain
+
+// $minifyjs                   : false
+// $minifyhtml                 : false
