@@ -1,10 +1,10 @@
 {
-  "name": "flow",
+  "name": "flow_ee",
   "version": "10.0.0",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/totaljs/flow"
+    "url": "https://github.com/Totaljs-Spain/flow_ee"
   },
   "dependencies": {
     "total5": "beta"
@@ -20,7 +20,8 @@
   "author": "Total.js",
   "contributors": [
     "Peter Širka",
-    "Martin Smola"
+    "Martin Smola",
+    "Gera G. Güiles"
   ],
   "license": "MIT"
 }
