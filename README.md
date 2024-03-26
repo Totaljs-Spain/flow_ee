@@ -15,7 +15,7 @@ This spetial edition of flow born thanks to UPM [(Polytechnic University of Madr
 
 ## Special integrations
 
-- This version must be working with [OpenPlatform] (https://docs.totaljs.com/openplatform/)
+- This version must be working with [OpenPlatform](https://docs.totaljs.com/openplatform/)
 - In this version, FlowStreams can be added for specific OpenPlatform group.
 - Students can work only in FlowStreams added to the group in their user group defined into OpenPlatform.
 - Teacher (User SA) can access to every FlowStreams.
