@@ -1,4 +1,4 @@
-name                        : Total.js Flow EE v10
+name                        : Total.js Flow Education Edition v10
 flowstream_worker           : fork
 
 cookie          (generate)  : 6
@@ -7,7 +7,7 @@ cookie_secret   (generate)  : 10
 $api                        : /fapi/
 $customtitles               : true
 
-// directory                   : /absolute/path/to/flow_ee/database/
+// directory                   : /absolute/path/to/flow/database/
 
 // Disables: Worker/Fork
 // flowstream_worker           : false
