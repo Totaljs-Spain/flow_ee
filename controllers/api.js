@@ -11,6 +11,7 @@ exports.install = function() {
 
 	// FlowStream
 	ROUTE('+API     ?    -streams                          --> Streams/query');
+	ROUTE('+API     ?    -op_groups                        --> Streams/op_groups');
 	ROUTE('+API     ?    -streams_read/{id}                --> Streams/read');
 	ROUTE('+API     ?    +streams_save                     --> Streams/save');
 	ROUTE('+API     ?    -streams_remove/{id}              --> Streams/remove');

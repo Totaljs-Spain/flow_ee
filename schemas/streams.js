@@ -2,16 +2,29 @@ const Fields = 'id,name:SafeString,author,version,icon:Icon,reference,group,url,
 
 NEWACTION('Streams/query', {
 	name: 'Query streams',
-	action: function($) {
+	action: async function($) {
 		var arr = [];
+
 		for (var key in Flow.db) {
 			if (key !== 'variables') {
 				var item = Flow.db[key];
 				var instance = Flow.instances[key];
-				arr.push({ id: item.id, name: item.name, group: item.group, author: item.author, reference: item.reference, url: item.url, color: item.color, icon: item.icon, readme: item.readme, dtcreated: item.dtcreated, dtupdated: item.dtupdated, errors: false, size: item.size || 0, version: item.version, proxypath: item.proxypath ? (CONF.default_root ? (CONF.default_root + item.proxypath.substring(1)) : item.proxypath) : '', memory: item.memory, stats: instance ? instance.flow.stats : {} });
+
+				if ($.user.sa || $.user.groups.includes(item.group))
+					arr.push({ id: item.id, name: item.name, group: item.group, author: item.author, reference: item.reference, url: item.url, color: item.color, icon: item.icon, readme: item.readme, dtcreated: item.dtcreated, dtupdated: item.dtupdated, errors: false, size: item.size || 0, version: item.version, proxypath: item.proxypath ? (CONF.default_root ? (CONF.default_root + item.proxypath.substring(1)) : item.proxypath) : '', memory: item.memory, stats: instance ? instance.flow.stats : {} });
 			}
 		}
 		$.callback(arr);
+	}
+});
+
+NEWACTION('Streams/op_groups', {
+	name: 'Query OpenPlatform Groups',
+	action: function($) {
+		if (CONF.op_groups)
+			RESTBuilder.GET(CONF.op_groups).callback($);
+		else
+			$.invalid(404);
 	}
 });
 

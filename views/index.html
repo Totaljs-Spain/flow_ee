@@ -253,6 +253,13 @@
 			})();
 
 			exports.refresh = function() {
+				//adding op_groups
+				exports.tapi('op_groups ERROR', function(response) {
+					var arr = response.groups;
+					arr.quicksort('name');
+					exports.set('op_groups', arr);
+				});
+
 				exports.tapi('streams ERROR', function(response) {
 
 					var groups = {};
@@ -271,12 +278,14 @@
 					var arr = [];
 					var form = [];
 
+
 					for (var key in groups) {
 						if (key !== '#')
 							form.push({ id: key, name: key });
 						arr.push({ name: key === '#' ? '' : key, items: groups[key].items });
 						groups[key].items.quicksort('name');
 					}
+
 
 					arr.quicksort('name');
 					exports.set('groups', arr);
