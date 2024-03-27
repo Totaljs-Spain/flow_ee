@@ -2,7 +2,7 @@
 
 # Total.js Flow Education Edition.
 
-__Special thanks to UPM. [(Polytechnic University of Madrid)](https://www.upm.es/internacional/)__
+__Special thanks to UPM. [(Universidad Politécnica de Madrid)](https://www.upm.es/internacional/)__
 
 [![Made in EU](https://cdn.componentator.com/eu-small.png)](https://european-union.europa.eu/)
 
@@ -14,7 +14,7 @@ __Special thanks to UPM. [(Polytechnic University of Madrid)](https://www.upm.es
 
 ## Education Edition
 
-This special edition of Total.js Flow was born thanks to UPM. [(Polytechnic University of Madrid)](https://www.upm.es/internacional/) In order to use Total.js Flow in a classroom.
+This special edition of Total.js Flow was born thanks to UPM. [(Universidad Politécnica de Madrid)](https://www.upm.es/internacional/) In order to use Total.js Flow in a classroom.
 
 ## What is different in this edition of Total.js Flow?
 
