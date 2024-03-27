@@ -46,9 +46,9 @@ or directly using node executable (port is optional, default 8000)
 node index.js <port>
 ```
 
-### Flow in Docker (TODO)
+### Flow in Docker
 
 ```bash
-docker pull totalplatform/flow_ee
-docker run -p 8000:8000 totalplatform/flow_ee
+docker pull totaljsspain/flow_ee
+docker run -p 8000:8000 totaljsspain/flow_ee
 ````
