@@ -21,13 +21,15 @@
 
 				<script type="text/html">
 					<div>@(This Total.js Flow for education application doesn't contain any FlowStream)</div>
-					<ui-bind path="user.openplatform" config="hidden"
+					<ui-bind path="user.openplatform" config="hidden">
 					<div class="m b red"><a class="exec b" data-exec="common/settings"><i class="ti ti-openplatform color mr5"></i>@(Remember this Flow edition need to be integrated with OpenPlatform)</a></div>
 					</ui-bind>
 					<ui-bind path="user.openplatform" config="show">
 						<div class="m b">@(Create something awesome)</div>
 						<div style="max-width:220px;margin:0 auto;width:100%;padding:5px">
-							<button class="exec button b" data-exec="common/create"><i class="ti ti-plus-circle mr5"></i>@(Create FlowStream)</button>
+							<ui-bind path="user.sa" config="show">
+								<button class="exec button b" data-exec="common/create"><i class="ti ti-plus-circle mr5"></i>@(Create FlowStream)</button>
+							</ui-bind>
 						</div>
 					</ui-bind>
 				</script>
