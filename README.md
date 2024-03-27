@@ -14,7 +14,7 @@ __Special thanks to UPM. [(Polytechnic University of Madrid)](https://www.upm.es
 
 ## Education Edition
 
-This special edition of Total.js Flow was born thanks to UPM. [(Polytechnic University of Madrid)](https://www.upm.es) In order to use Total.js Flow in a classroom.
+This special edition of Total.js Flow was born thanks to UPM. [(Polytechnic University of Madrid)](https://www.upm.es/internacional/) In order to use Total.js Flow in a classroom.
 
 ## What is different in this edition of Total.js Flow?
 
