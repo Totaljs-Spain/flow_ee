@@ -435,7 +435,8 @@
 				if (top === W)
 					opt.items.push({ id: 'newtab', name: '@(Open in new tab)', icon: 'ti ti-window-alt' });
 
-				opt.items.push({ id: 'edit', name: '@(Edit)', icon: 'ti ti-pencil' });
+				if (user.sa || user.permissions.includes('create'))
+					opt.items.push({ id: 'edit', name: '@(Edit)', icon: 'ti ti-pencil' });
 
 				if (user.sa || user.permissions.includes('create'))
 					opt.items.push({ id: 'clone', name: '@(Clone)', icon: 'ti ti-clone' });
