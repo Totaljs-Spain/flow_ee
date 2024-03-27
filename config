@@ -1,4 +1,4 @@
-name                        : Total.js Flow Education Edition v10
+name                        : Total.js Flow Education Edition v1
 flowstream_worker           : fork
 
 // Link to url of users API in OpenPlatform (need to configure in settings into OpenPlatform)
