@@ -1,5 +1,5 @@
 FROM node:19-alpine
-MAINTAINER totaljsspain "gera@totaljs.es"
+MAINTAINER totaljsspain "gera@totaljs.com"
 
 VOLUME /www
 WORKDIR /www
