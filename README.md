@@ -1,5 +1,8 @@
+[![UPM](https://www.upm.es/themes/comun/logos/institucional.png)](https://upm.es/) 
+
 # Total.js Flow Education Edition.
-- Special thanks to UPM. [(Polytechnic University of Madrid)](https://www.upm.es)
+
+__Special thanks to UPM. [(Polytechnic University of Madrid)](https://www.upm.es)__
 
 [![Made in EU](https://cdn.componentator.com/eu-small.png)](https://european-union.europa.eu/)
 
