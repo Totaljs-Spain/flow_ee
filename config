@@ -1,5 +1,8 @@
-name                        : Total.js Flow Education Edition v10
+name                        : Total.js Flow Education Edition v1
 flowstream_worker           : fork
+
+// Link to url of users API in OpenPlatform (need to be configured in settings into OpenPlatform)
+op_groups                   : https://my_openplatform/users/?token=[]
 
 cookie          (generate)  : 6
 cookie_secret   (generate)  : 10
