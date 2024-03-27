@@ -10,7 +10,7 @@ NEWACTION('Streams/query', {
 				var item = Flow.db[key];
 				var instance = Flow.instances[key];
 
-				if ($.user.sa || $.user.groups.includes(item.group))
+				if ($.user.groups.findIndex(item.group) != -1)
 					arr.push({ id: item.id, name: item.name, group: item.group, author: item.author, reference: item.reference, url: item.url, color: item.color, icon: item.icon, readme: item.readme, dtcreated: item.dtcreated, dtupdated: item.dtupdated, errors: false, size: item.size || 0, version: item.version, proxypath: item.proxypath ? (CONF.default_root ? (CONF.default_root + item.proxypath.substring(1)) : item.proxypath) : '', memory: item.memory, stats: instance ? instance.flow.stats : {} });
 			}
 		}
