@@ -1,115 +1,242 @@
-<ui-component name="box" path="common.form" config="if:~PATH~;icon:ti ti-object-group;autofocus:true;reload:?/reload;scrollbar:1;submit:?/submit;width:800" class="hidden" plugin="~PATH~">
-	<div class="padding bg-smoke npb">
-		<div class="grid-2">
-			<div class="m">
-				<ui-component name="input" path="?.name" config="required:1" default="''">@(Name)</ui-component>
-				<div class="help">@(Enter FlowStream name)</div>
-			</div>
-			<div class="m">
-				<ui-component name="input" path="?.url" default="'https://'">@(URL address for support)</ui-component>
-				<div class="help">@(Optional, you can enter the URL address for support)</div>
-			</div>
-		</div>
-	</div>
-	<div class="padding npb">
+const Fields = 'id,name:SafeString,author,version,icon:Icon,reference,group,url,cloning:Boolean,color:Color,readme,memory:Number,proxypath'.toJSONSchema();
 
-		<div class="row">
-			<div class="col-md-3 m">
-				<ui-component name="input" path="?.group" config="dirsource:common.op_groups;dircustom:1;dirempty:@(Empty);dirminwidth:300;dirplaceholder:@(Choose or enter new)">@(Group)</ui-component>
-			</div>
-			<div class="col-md-3 m">
-				<ui-component name="input" path="?.reference" config="align:1">@(Reference)</ui-component>
-			</div>
-			<div class="col-md-3 m">
-				<ui-component name="input" path="?.version" config="align:1">@(Version)</ui-component>
-			</div>
-			<div class="col-md-3 m">
-				<ui-component name="input" path="?.author" config="align:1">@(Author)</ui-component>
-			</div>
-		</div>
+NEWACTION('Streams/query', {
+	name: 'Query streams',
+	action: async function($) {
+		var arr = [];
 
-		<div class="row">
-			<div class="col-md-3 m">
-				<ui-component name="input" path="?.icon" config="required:1;type:icon" default="'ti ti-microchip'">@(Icon)</ui-component>
-			</div>
-			<div class="col-md-3 m">
-				<ui-component name="input" path="?.color" config="type:color">@(Color)</ui-component>
-			</div>
-			<div class="col-md-6">
-				<ui-component name="input" path="?.proxypath" config="placeholder:@(/users/)"><i class="ti ti-server"></i><b>@(Proxy endpoint)</b></ui-component>
-				<div class="help">@(It will route all incoming requests to this FlowStream.)</div>
-			</div>
-		</div>
-		<hr />
-		<ui-component name="input" path="?.cloning" config="type:checkbox" default="true" class="b">@(Enable cloning of message data)</ui-component>
-		<div class="help">@(By disabling this option you can improve FlowStream performance because message data will not be cloned in the exchange. But on the other hand you may have trouble with object references.)</div>
-		<hr />
-		<div class="row">
-			<div class="col-md-3 m">
-				<ui-component name="input" path="?.memory" config="type:number" default="0">@(Max. memory)</ui-component>
-			</div>
-			<div class="col-md-9 m">
-				<div class="message message-alert"><i class="ti ti-microchip"></i>@(Maximum memory limit must be defined in megabytes. Memory management for a worker process. Zero (<b>0</b>) means auto memory limit.)</div>
-			</div>
-		</div>
-	</div>
-	<hr class="nmb nmt" />
-	<div class="padding">
-		<div class="ui-input-label">@(Additional information):</div>
-		<ui-component name="codemirror" path="?.readme" config="minheight:300;parent:auto;margin:600;monospace:1;type:markdown;linenumbers:0"></ui-component>
-		<div class="help">@(Markdown format)</div>
-	</div>
-	<nav>
-		<ui-component name="validate" path="?">
-			<button name="submit" disabled><i class="ti ti-check-circle"></i>@(SUBMIT)</button>
-			<button name="cancel">@(Cancel)</button>
-		</ui-component>
-	</nav>
-</ui-component>
+		for (var key in Flow.db) {
+			if (key !== 'variables') {
+				var item = Flow.db[key];
+				var instance = Flow.instances[key];
 
-<script>
+				if ($.user.sa || $.user.groups.findIndex(item.group) != -1 || item.group == '')
+					arr.push({ id: item.id, name: item.name, group: item.group, author: item.author, reference: item.reference, url: item.url, color: item.color, icon: item.icon, readme: item.readme, dtcreated: item.dtcreated, dtupdated: item.dtupdated, errors: false, size: item.size || 0, version: item.version, proxypath: item.proxypath ? (CONF.default_root ? (CONF.default_root + item.proxypath.substring(1)) : item.proxypath) : '', memory: item.memory, stats: instance ? instance.flow.stats : {} });
+			}
+		}
+		$.callback(arr);
+	}
+});
 
-	PLUGIN(function(exports) {
+NEWACTION('Streams/op_groups', {
+	name: 'Query OpenPlatform Groups',
+	action: function($) {
+		if (CONF.op_groups)
+			RESTBuilder.GET(CONF.op_groups).callback($);
+		else
+			$.invalid(404);
+	}
+});
 
-		exports.reload = function(com) {
-			var model = exports.model;
-			var id = model ? model.id : null;
-			com.reconfigure({ title: id ? '@(Update FlowStream)' : '@(Add FlowStream)' });
-		};
+NEWACTION('Streams/read', {
+	name: 'Read specific stream',
+	params: '*id',
+	action: function($) {
+		var id = $.params.id;
+		var item = Flow.db[id];
+		if (item) {
+			var data = {};
+			for (let key in Fields.properties)
+				data[key] = item[key];
+			if (data.cloning == null)
+				data.cloning = true;
+			$.callback(data);
+		} else
+			$.invalid(404);
+	}
+});
 
-		exports.submit = function(hide) {
+NEWACTION('Streams/save', {
+	name: 'Save specific stream',
+	input: Fields,
+	action: function($, model) {
 
-			var model = CLONE(exports.form);
+		var init = !model.id;
 
-			if (model.proxypath) {
-				if (model.proxypath.charAt(0) !== '/')
-					model.proxypath = '/' + model.proxypath;
-				if (model.proxypath.charAt(model.proxypath.length - 1) !== '/')
-					model.proxypath += '/';
+		if (init) {
+			if (UNAUTHORIZED($, 'create'))
+				return;
+		}
 
-				var error;
-				for (var i = 0; i < common.items.length; i++) {
-					var item = common.items[i];
-					if (item.id === model.id)
-						continue;
-					if (item.proxypath && (item.proxypath === model.proxypath || item.proxypath.startsWith(model.proxypath) || model.proxypath.startsWith(item.proxypath))) {
-						error = '@(Invalid endpoint) <span class="link">{0}</span>.<br>@(Overlapping with <span class="link">{1}</span> used by <b>{2}</b>)'.format(model.proxypath, item.proxypath, item.name);
-						break;
-					}
-				}
+		var db = Flow.db;
 
-				if (error) {
-					EXEC('-message/warning', error);
+		if (model.proxypath) {
+
+			if (model.proxypath[0] !== '/')
+				model.proxypath = '/' + model.proxypath;
+
+			if (model.proxypath[model.proxypath.length - 1] !== '/')
+				model.proxypath += '/';
+
+			var ignore = ['/', '/cdn/', '/fapi/', '/private/', '/flows/', '/designer/', '/parts/', '/forms/', '/css/', '/js/', '/fonts/', '/panels/'];
+
+			if (ignore.includes(model.proxypath)) {
+				$.invalid('@(Proxy endpoint contains reserved path)');
+				return;
+			}
+
+			for (var key in db) {
+				if (db[key].proxypath === model.proxypath && key !== model.id) {
+					$.invalid('Proxy endpoint is already used by the "{0}" Flow.'.format(db[key].name));
 					return;
 				}
 			}
+		}
 
-			exports.tapi('streams_save ERROR', model, function() {
-				EXEC('common/refresh');
-				hide();
+		if (init) {
+
+			model.id = 'f' + UID();
+			model.design = {};
+			model.components = {};
+			model.variables = {};
+			model.sources = {};
+			model.dtcreated = NOW;
+			model.asfiles = CONF.flowstream_asfiles === true;
+			model.worker = CONF.flowstream_worker;
+			model.variables2 = Flow.db.variables || {};
+			model.directory = CONF.directory || PATH.root('/flowstream/');
+			model.env = PREF.env || 'dev';
+
+			if (!model.memory)
+				model.memory = CONF.flowstream_memory || 0;
+
+			TRANSFORM('flowstream.create', model, function(err, model) {
+				Flow.db[model.id] = model;
+				Flow.load(model, ERROR('FlowStream.init'));
 			});
-		};
 
-	});
+		} else {
+			var item = Flow.db[model.id];
+			if (item) {
 
-</script>
+				item = CLONE(item);
+				item.dtupdated = NOW;
+				item.name = model.name;
+				item.icon = model.icon;
+				item.url = model.url;
+				item.version = model.version;
+				item.reference = model.reference;
+				item.author = model.author;
+				item.group = model.group;
+				item.color = model.color;
+				item.memory = model.memory;
+				item.cloning = model.cloning;
+				item.readme = model.readme;
+				item.proxypath = model.proxypath;
+
+				TRANSFORM('flowstream.update', item, function(err, item) {
+					Flow.reload(item);
+				});
+
+			} else {
+				$.invalid(404);
+				return;
+			}
+		}
+
+		$.audit();
+		$.success();
+
+		Flow.emit('save');
+	}
+});
+
+NEWACTION('Streams/remove', {
+	name: 'Remoce specific stream',
+	permissions: 'remove',
+	params: '*id:String',
+	action: function($) {
+
+		var id = $.params.id;
+		var item = Flow.db[id];
+		if (item) {
+
+			var path = CONF.directory ? CONF.directory : ('~' + PATH.root('flowstream'));
+			if (path[0] === '~')
+				path = path.substring(1);
+			else
+				path = PATH.root(CONF.directory);
+
+			F.Fs.rm(PATH.join(path, id), { recursive: true, force: true }, NOOP);
+			Flow.remove(id);
+			Flow.emit('save');
+
+			$.audit(item.name);
+			$.success();
+		} else
+			$.invalid(404);
+	}
+});
+
+NEWACTION('Streams/raw', {
+	name: 'Read stream raw data',
+	params: '*id',
+	action: function($) {
+		var item = Flow.db[$.params.id];
+		if (item)
+			$.callback(item);
+		else
+			$.invalid(404);
+	}
+});
+
+var internalstats = {};
+internalstats.node = F.version_node;
+internalstats.total = F.version;
+internalstats.version = Flow.version;
+
+NEWACTION('Streams/stats', {
+	name: 'Read stats',
+	action: function($) {
+
+		internalstats.messages = 0;
+		internalstats.pending = 0;
+		internalstats.mm = 0;
+		internalstats.memory = process.memoryUsage().heapUsed;
+
+		for (var key in Flow.instances) {
+			var flow = Flow.instances[key];
+			if (flow.flow && flow.flow.stats) {
+				internalstats.messages += flow.flow.stats.messages;
+				internalstats.mm += flow.flow.stats.mm;
+				internalstats.pending += flow.flow.stats.pending;
+			}
+		}
+
+		$.callback(internalstats);
+	}
+});
+
+NEWACTION('Streams/pause', {
+	name: 'Pause a specific stream',
+	params: '*id',
+	action: function($) {
+		var id = $.params.id;
+		var item = Flow.db[id];
+		if (item) {
+			var is = $.query.is ? ($.query.is === '1') : null;
+			var instance = Flow.instances[id];
+			if (instance) {
+				if (instance.flow.stats && is != null)
+					instance.flow.stats.paused = is;
+				instance.pause(is);
+				$.audit();
+				$.success();
+			} else
+				$.invalid('@(Instance is not running)');
+		} else
+			$.invalid(404);
+	}
+});
+
+NEWACTION('Streams/restart', {
+	name: 'Restart a specific stream',
+	params: '*id',
+	action: function($) {
+		var id = $.params.id;
+		if (Flow.restart(id))
+			$.success();
+		else
+			$.invalid(404);
+	}
+});
