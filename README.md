@@ -49,7 +49,7 @@ or directly using node executable (port is optional, default 8000)
 node index.js <port>
 ```
 
-### Flow in Docker (Only ARM version at this moment)
+### Flow in Docker
 
 ```bash
 docker pull totaljsspain/flow_ee
