@@ -3,9 +3,6 @@ name: Docker Image CI
 on:
   workflow_dispatch:
 
-runs:
-  using: 'node20'
-  
 jobs:
   docker:
     runs-on: ubuntu-latest
