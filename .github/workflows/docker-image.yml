@@ -34,5 +34,6 @@ jobs:
           platforms: linux/amd64,linux/arm64
           tags: totaljsspain/flow__ee:latest
           push: true
+          token: ${{ secrets.DOCKERHUB_TOKEN }}
           secrets: |
             github_token=${{ secrets.ACCESS_TOKEN }}
