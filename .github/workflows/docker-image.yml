@@ -5,7 +5,6 @@ on:
 
 runs:
   using: 'node20'
-  main: 'main.js'
   
 jobs:
   docker:
