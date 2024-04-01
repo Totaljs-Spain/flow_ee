@@ -35,4 +35,4 @@ jobs:
           tags: totaljsspain/flow__ee:latest
           push: true
           secrets: |
-            token=${{ secrets.ACCESS_TOKEN }}
+            github_token=${{ secrets.ACCESS_TOKEN }}
