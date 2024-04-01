@@ -11,7 +11,7 @@ jobs:
         name: Checkout
         uses: actions/checkout@v2
         with:
-          repository: 'totaljsspain/flow_ee'
+          repository: 'Totaljs-Spain/flow_ee'
           ref: 'master'
           token: ${{ secrets.ACCESS_TOKEN }}
       -
