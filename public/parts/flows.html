@@ -134,6 +134,8 @@
 		};
 
 		Thelpers.group_name = function(val) {
+			if (!val)
+				return;
 			var gname = common.op_groups.findItem('id', val);
 			if (gname && gname.name)
 				return gname.name;
