@@ -135,7 +135,10 @@
 
 		Thelpers.group_name = function(val) {
 			var gname = common.op_groups.findItem('id', val);
-			return gname.name || val;
+			if (gname && gname.name)
+				return gname.name;
+			else
+				return val;
 		};
 	});
 </script>
