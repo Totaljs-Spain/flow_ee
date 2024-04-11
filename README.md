@@ -52,6 +52,6 @@ node index.js <port>
 ### Flow in Docker
 
 ```bash
-docker pull totaljses/flow_ee
-docker run -p 8000:8000 totaljses/flow_ee
+docker pull totaljses/flowee
+docker run -p 8000:8000 totaljses/flowee
 ````
