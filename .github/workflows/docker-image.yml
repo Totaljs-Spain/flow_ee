@@ -21,7 +21,7 @@ jobs:
         with:
           version: "lab:latest"
           driver: cloud
-          endpoint: "totaljses/flow_ee"
+          endpoint: "totaljses/flowee"
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
