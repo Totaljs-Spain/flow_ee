@@ -34,7 +34,7 @@ There are several ways to provide Flow EE. You can use our cloud services and ru
 - install [Node.js platform](https://nodejs.org/en/)
 - download Flow EE source code
 - open terminal/command-line:
-	- `cd flow_ee`
+	- `cd flowee`
 	- `npm install`
 
 __Run__:
@@ -52,6 +52,6 @@ node index.js <port>
 ### Flow in Docker
 
 ```bash
-docker pull totaljsspain/flow_ee
-docker run -p 8000:8000 totaljsspain/flow_ee
+docker pull totaljses/flow_ee
+docker run -p 8000:8000 totaljses/flow_ee
 ````
