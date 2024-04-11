@@ -1,5 +1,5 @@
 FROM node:lts-alpine
-MAINTAINER totaljsspain "info@totaljs.es"
+MAINTAINER totaljses "info@totaljs.es"
 
 VOLUME /www
 WORKDIR /www
