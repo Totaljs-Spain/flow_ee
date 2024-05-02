@@ -21,6 +21,7 @@
 
 	<ui-component name="LAZY menu" config="style:2"></ui-component>
 	<ui-component name="LAZY approve" config="cancel:@(Cancel)"></ui-component>
+	<ui-component name="LAZY autocomplete"></ui-component>
 	<ui-component name="LAZY message" config="style:2"></ui-component>
 	<ui-component name="LAZY notify" config="position:bottom right"></ui-component>
 	<ui-component name="LAZY spotlight"></ui-component>
@@ -278,14 +279,12 @@
 					var arr = [];
 					var form = [];
 
-
 					for (var key in groups) {
 						if (key !== '#')
 							form.push({ id: key, name: key });
 						arr.push({ name: key === '#' ? '' : key, items: groups[key].items });
 						groups[key].items.quicksort('name');
 					}
-
 
 					arr.quicksort('name');
 					exports.set('groups', arr);

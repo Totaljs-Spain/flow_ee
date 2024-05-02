@@ -2,14 +2,12 @@ const Fields = 'id,name:SafeString,author,version,icon:Icon,reference,group,url,
 
 NEWACTION('Streams/query', {
 	name: 'Query streams',
-	action: async function($) {
+	action: function($) {
 		var arr = [];
-
 		for (var key in Flow.db) {
 			if (key !== 'variables') {
 				var item = Flow.db[key];
 				var instance = Flow.instances[key];
-
 				if ($.user.sa || $.user.groups.findIndex(item.group) != -1)
 					arr.push({ id: item.id, name: item.name, group: item.group, author: item.author, reference: item.reference, url: item.url, color: item.color, icon: item.icon, readme: item.readme, dtcreated: item.dtcreated, dtupdated: item.dtupdated, errors: false, size: item.size || 0, version: item.version, proxypath: item.proxypath ? (CONF.default_root ? (CONF.default_root + item.proxypath.substring(1)) : item.proxypath) : '', memory: item.memory, stats: instance ? instance.flow.stats : {} });
 			}
@@ -17,6 +15,7 @@ NEWACTION('Streams/query', {
 		$.callback(arr);
 	}
 });
+
 
 NEWACTION('Streams/op_groups', {
 	name: 'Query OpenPlatform Groups',
@@ -194,8 +193,13 @@ NEWACTION('Streams/stats', {
 		internalstats.mm = 0;
 		internalstats.memory = process.memoryUsage().heapUsed;
 
-		for (var key in Flow.instances) {
-			var flow = Flow.instances[key];
+		internalstats.online = 0;
+
+		for (let key in Total.connections)
+			internalstats.online += Total.connections[key].online;
+
+		for (let key in Flow.instances) {
+			let flow = Flow.instances[key];
 			if (flow.flow && flow.flow.stats) {
 				internalstats.messages += flow.flow.stats.messages;
 				internalstats.mm += flow.flow.stats.mm;
